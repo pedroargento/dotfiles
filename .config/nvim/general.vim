@@ -6,6 +6,7 @@ set title
 set nocompatible
 set autoindent
 set nomodeline " disable modeline vulnerability
+map <SPACE> <leader>
 
 for key in ['<Up>', '<Down>', '<Left>', '<Right>']
     exec 'noremap' key '<Nop>'
