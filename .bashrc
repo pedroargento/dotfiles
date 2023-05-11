@@ -142,4 +142,4 @@ PATH="$HOME/.local/bin:$PATH"
 PATH="$HOME/.local/bin:$PATH"
 PATH="$HOME/.local/bin:$PATH"
 PATH="$HOME/.local/bin:$PATH"
-alias config='/usr/bin/git --git-dir=/home/pedroargento/.cfg/ --work-tree=/home/pedroargento'
+alias dotbare='/usr/bin/git --git-dir=/home/pedroargento/.cfg/ --work-tree=/home/pedroargento'
