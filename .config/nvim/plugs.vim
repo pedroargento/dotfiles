@@ -5,7 +5,6 @@ Plug 'tpope/vim-unimpaired'
 Plug 'tpope/vim-fugitive'
 Plug 'scrooloose/nerdtree', { 'on' : 'NERDTreeToggle' }
 Plug 'itchyny/lightline.vim'
-Plug 'jiangmiao/auto-pairs'
 Plug 'KeitaNakamura/tex-conceal.vim'
 Plug 'sirver/ultisnips'
 Plug 'lervag/vimtex'
@@ -19,6 +18,7 @@ Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'scrooloose/nerdcommenter'
 Plug 'sheerun/vim-polyglot'
+Plug 'psf/black', { 'branch': 'stable' }
 
 " LSP Support
 Plug 'neovim/nvim-lspconfig'                           " Required

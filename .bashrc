@@ -143,3 +143,4 @@ PATH="$HOME/.local/bin:$PATH"
 PATH="$HOME/.local/bin:$PATH"
 PATH="$HOME/.local/bin:$PATH"
 alias dotbare='/usr/bin/git --git-dir=/home/pedroargento/.cfg/ --work-tree=/home/pedroargento'
+. "$HOME/.cargo/env"

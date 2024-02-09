@@ -39,6 +39,7 @@ bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOU
 
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
+focus_follows_mouse no
 
 # start a terminal
 bindsym $mod+Return exec i3-sensible-terminal
@@ -209,3 +210,16 @@ client.focused_inactive $inactive-bg-color $inactive-bg-color $inactive-text-col
 client.urgent           $urgent-bg-color    $urgent-bg-color   $text-color          #00ff00
 
 bindsym $mod+z exec env XDG_CURRENT_DESKTOP=GNOME gnome-control-center
+bindsym $mod+Shift+p [instance="keepassxc"] scratchpad show, move position center
+for_window [instance="keepassxc"] floating enable, resize set 800 800, move scratchpad, border pixel 5
+bindsym Control+Mod1+l exec "i3lock -c 000000"
+
+mode "exit: [l]ogout, [r]eboot, [s]hutdown" {
+    bindsym l exec i3-msg exit
+    bindsym r exec systemctl reboot
+    bindsym s exec systemctl shutdown
+    bindsym Escape mode "default"
+    bindsym Return mode "default"
+    }
+bindsym $mod+x mode "exit: [l]ogout, [r]eboot, [s]hutdown"
+
