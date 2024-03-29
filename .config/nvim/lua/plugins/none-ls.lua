@@ -16,6 +16,9 @@ return {
 				null_ls.builtins.diagnostics.flake8,
         -- Rust
 				null_ls.builtins.formatting.rustfmt,
+        -- Bash
+				null_ls.builtins.diagnostics.shellcheck,
+				null_ls.builtins.formatting.beautysh,
 			},
 		})
 
