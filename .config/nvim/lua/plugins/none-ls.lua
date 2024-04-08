@@ -19,6 +19,8 @@ return {
         -- Bash
 				null_ls.builtins.diagnostics.shellcheck,
 				null_ls.builtins.formatting.beautysh,
+        -- Solidity
+        null_ls.builtins.diagnostics.solhint
 			},
 		})
 
