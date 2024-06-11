@@ -20,7 +20,10 @@ return {
 				null_ls.builtins.diagnostics.shellcheck,
 				null_ls.builtins.formatting.beautysh,
         -- Solidity
-        null_ls.builtins.diagnostics.solhint
+        null_ls.builtins.diagnostics.solhint,
+        -- C
+				null_ls.builtins.diagnostics.ast_grep,
+				null_ls.builtins.formatting.ast_grep,
 			},
 		})
 

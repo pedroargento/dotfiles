@@ -12,6 +12,8 @@ fi
 export ZSH="$HOME/.oh-my-zsh"
 export PATH="$HOME/.tmuxifier/bin:$PATH"
 export EDITOR=nvim
+export DOCKER_HOST=unix:///var/run/docker.sock
+export PATH="$HOME/go/bin:$PATH"
 
 ZSH_THEME="powerlevel10k/powerlevel10k"
 
