@@ -38,4 +38,5 @@ export NVM_DIR="$HOME/.nvm"
 
 alias config='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
 alias six='echo "(5 + 1)" | bc | xclip -selection clipboard'
+alias ab="cartesi address-book | fzf | awk '{print $2}'"
 

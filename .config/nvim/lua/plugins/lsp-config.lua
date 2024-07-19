@@ -35,9 +35,6 @@ return {
       lspconfig.bashls.setup({
         capabilities = capabilities
       })
-      lspconfig.solc.setup({
-        capabilities = capabilities
-      })
       lspconfig.clangd.setup({
         capabilities = capabilities
       })
