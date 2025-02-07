@@ -12,10 +12,10 @@ return {
   {
     "hrsh7th/nvim-cmp",
     dependencies = {
-     'hrsh7th/cmp-nvim-lsp-signature-help',
-     'hrsh7th/cmp-buffer',
-     'hrsh7th/cmp-path',
-   },
+      'hrsh7th/cmp-nvim-lsp-signature-help',
+      'hrsh7th/cmp-buffer',
+      'hrsh7th/cmp-path',
+    },
     config = function()
       local cmp = require("cmp")
       require("luasnip.loaders.from_vscode").lazy_load()
@@ -35,11 +35,21 @@ return {
           ["<C-f>"] = cmp.mapping.scroll_docs(4),
           ["<C-Space>"] = cmp.mapping.complete(),
           ["<C-e>"] = cmp.mapping.abort(),
-          ["<CR>"] = cmp.mapping.confirm({ select = true }),
+          -- Custom Enter mapping to create a new line without selecting completion
+          ["<CR>"] = cmp.mapping(function(fallback)
+            if cmp.visible() then
+              -- Don't select the top result, just insert a newline
+              vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<CR>", true, true, true), "n", true)
+            else
+              -- Insert newline if completion menu is not visible
+              fallback()
+            end
+          end, { "i", "s" }),
         }),
         sources = cmp.config.sources({
           { name = "nvim_lsp" },
-          { name = "luasnip" }, -- For luasnip users.
+          { name = "luasnip" },  -- For luasnip users.
+          { name = 'nvim_lsp_signature_help' }, -- Added signature help
         }, {
           { name = "buffer" },
           { name = "path" },
@@ -48,3 +58,4 @@ return {
     end,
   },
 }
+

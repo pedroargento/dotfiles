@@ -1,0 +1,68 @@
+return {
+  {
+    "williamboman/mason.nvim",
+    lazy = true,
+    cmd = { "Mason" },
+    config = function()
+      require("mason").setup()
+    end,
+  },
+  {
+    "williamboman/mason-lspconfig.nvim",
+    lazy = true,
+    event = "BufReadPre",
+    opts = {
+      ensure_installed = {
+        "tsserver",      -- TypeScript/JavaScript
+        "gopls",         -- Go
+        "rust_analyzer", -- Rust
+        "marksman",      -- Markdown
+        "texlab",        -- LaTeX
+        "html",
+        "lua_ls",
+        "pyright",
+        "bashls",
+        "clangd",
+      },
+      auto_install = true, -- Automatically install LSPs in ensure_installed
+    },
+  },
+  {
+    "neovim/nvim-lspconfig",
+    lazy = true,
+    event = "BufReadPre",
+    config = function()
+      local capabilities = require("cmp_nvim_lsp").default_capabilities()
+
+      local on_attach = function(client, bufnr)
+        local bufopts = { noremap = true, silent = true, buffer = bufnr }
+        vim.keymap.set("n", "K", vim.lsp.buf.hover, bufopts)
+        vim.keymap.set("n", "<leader>gd", vim.lsp.buf.definition, bufopts)
+        vim.keymap.set("n", "<leader>gr", vim.lsp.buf.references, bufopts)
+        vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, bufopts)
+      end
+
+      local lspconfig = require("lspconfig")
+      local servers = {
+        "tsserver",
+        "gopls",
+        "rust_analyzer",
+        "marksman",
+        "texlab",
+        "html",
+        "lua_ls",
+        "pyright",
+        "bashls",
+        "clangd",
+      }
+
+      for _, lsp in ipairs(servers) do
+        lspconfig[lsp].setup({
+          capabilities = capabilities,
+          on_attach = on_attach,
+        })
+      end
+    end,
+  },
+}
+
