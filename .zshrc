@@ -42,4 +42,9 @@ alias ab="cartesi address-book | fzf | awk '{print $2}'"
 
 export PATH="/home/pedroargento/git-fuzzy/bin:$PATH"
 export PATH="$HOME/projects/scripts:$PATH"
+export PATH="$HOME/Downloads/cartesi-machine/:$PATH"
+
+
+autoload -U compinit
+compinit -i
 

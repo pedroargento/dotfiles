@@ -30,26 +30,25 @@ return {
           completion = cmp.config.window.bordered(),
           documentation = cmp.config.window.bordered(),
         },
+        preselect = cmp.PreselectMode.None, -- Disable automatic preselection
         mapping = cmp.mapping.preset.insert({
           ["<C-b>"] = cmp.mapping.scroll_docs(-4),
           ["<C-f>"] = cmp.mapping.scroll_docs(4),
           ["<C-Space>"] = cmp.mapping.complete(),
           ["<C-e>"] = cmp.mapping.abort(),
-          -- Custom Enter mapping to create a new line without selecting completion
+          -- Enter to confirm if a selection is active, otherwise insert a newline
           ["<CR>"] = cmp.mapping(function(fallback)
-            if cmp.visible() then
-              -- Don't select the top result, just insert a newline
-              vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<CR>", true, true, true), "n", true)
+            if cmp.visible() and cmp.get_selected_entry() then
+              cmp.mapping.confirm({ select = false })() -- Confirm only if something is selected
             else
-              -- Insert newline if completion menu is not visible
-              fallback()
+              fallback() -- Insert a newline if nothing is selected
             end
           end, { "i", "s" }),
         }),
         sources = cmp.config.sources({
           { name = "nvim_lsp" },
-          { name = "luasnip" },  -- For luasnip users.
-          { name = 'nvim_lsp_signature_help' }, -- Added signature help
+          { name = "luasnip" },  -- For luasnip users
+          { name = 'nvim_lsp_signature_help' },
         }, {
           { name = "buffer" },
           { name = "path" },
