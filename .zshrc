@@ -48,3 +48,11 @@ export PATH="$HOME/Downloads/cartesi-machine/:$PATH"
 autoload -U compinit
 compinit -i
 
+
+# pnpm
+export PNPM_HOME="/home/pedroargento/.local/share/pnpm"
+case ":$PATH:" in
+  *":$PNPM_HOME:"*) ;;
+  *) export PATH="$PNPM_HOME:$PATH" ;;
+esac
+# pnpm end

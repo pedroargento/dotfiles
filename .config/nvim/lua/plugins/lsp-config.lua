@@ -1,138 +1,127 @@
 return {
-	-- Mason for managing LSPs
-	{
-		"williamboman/mason.nvim",
-		lazy = true,
-		cmd = { "Mason" },
-		config = function()
-			require("mason").setup()
-		end,
-	},
+  -- Mason for managing LSPs
+  {
+    "williamboman/mason.nvim",
+    lazy = true,
+    cmd = { "Mason" },
+    config = function()
+      require("mason").setup()
+    end,
+  },
 
-	-- Mason-LSPConfig for managing LSP servers
-	{
-		"williamboman/mason-lspconfig.nvim",
-		lazy = true,
-		event = "BufReadPre",
-		opts = {
-			ensure_installed = {
-				"tsserver", -- TypeScript/JavaScript
-				"gopls", -- Go
-				"rust_analyzer", -- Rust
-				"marksman", -- Markdown
-				"texlab", -- LaTeX
-				"lua_ls",
-				"pyright",
-				"bashls",
-				"clangd",
-				"solidity",
-			},
-			auto_install = true,
-		},
-	},
+  -- Mason-LSPConfig for managing LSP servers
+  {
+    "williamboman/mason-lspconfig.nvim",
+    lazy = true,
+    event = "BufReadPre",
+    opts = {
+      ensure_installed = {
+        "ts_ls", "gopls", "rust_analyzer", "marksman", "texlab",
+        "lua_ls", "pyright", "bashls", "clangd", "solidity",
+      },
+      auto_install = true,
+    },
+  },
 
-	-- Mason-Null-LS for managing formatters and linters
-	{
-		"jay-babu/mason-null-ls.nvim",
-		lazy = true,
-		event = "BufReadPre",
-		opts = {
-			ensure_installed = {
-				"prettier", -- Formatter for JavaScript, TypeScript, HTML, CSS, Markdown, etc.
-				"eslint_d", -- Linter for JavaScript/TypeScript
-				--        "black",                  -- Formatter for Python
-				"shfmt", -- Formatter for Shell scripts
-				"stylua", -- Formatter for Lua
-				"latexindent", -- Formatter for LaTeX
-			},
-			automatic_installation = true, -- Automatically install tools
-		},
-	},
+  -- Mason-None-LS for managing formatters and linters
+  {
+    "jay-babu/mason-null-ls.nvim", -- works fine with none-ls
+    lazy = true,
+    event = "BufReadPre",
+    opts = {
+      ensure_installed = {
+        "prettier",
+        "eslint_d",
+        "shfmt",
+        "stylua",
+        "latexindent",
+      },
+      automatic_installation = true,
+    },
+  },
 
-	-- Null-LS for integrating formatters/linters into Neovim
-	{
-		"jose-elias-alvarez/null-ls.nvim",
-		lazy = true,
-		event = "BufReadPre",
-		config = function()
-			local null_ls = require("null-ls")
-			null_ls.setup({
-				sources = {
-					-- Formatters
-					null_ls.builtins.formatting.prettier, -- For JS, TS, HTML, CSS, Markdown
-					null_ls.builtins.formatting.black.with({
-						command = "black", -- Use globally installed black
-					}), -- Python
-					null_ls.builtins.formatting.shfmt, -- Shell
-					null_ls.builtins.formatting.stylua, -- Lua
-					null_ls.builtins.formatting.latexindent, -- LaTeX
+  -- None-LS (null-ls fork) for integrating formatters/linters
+  {
+    "nvimtools/none-ls.nvim", -- 👈 updated plugin
+    lazy = true,
+    event = "BufReadPre",
+    config = function()
+      local null_ls = require("null-ls")
 
-					-- Linters
-					null_ls.builtins.diagnostics.eslint_d, -- JavaScript/TypeScript
-					null_ls.builtins.formatting.forge_fmt.with({
-						command = "forge",
-						args = { "fmt" },
-						filetypes = { "solidity" },
-					}),
-				},
-				on_attach = function(client, bufnr)
-					local bufopts = { noremap = true, silent = true, buffer = bufnr }
-					vim.keymap.set("n", "<leader>f", function()
-						vim.lsp.buf.format({ async = true })
-					end, bufopts)
-				end,
-			})
-		end,
-	},
+      null_ls.setup({
+        sources = {
+          -- Formatters
+          null_ls.builtins.formatting.prettier,
+          null_ls.builtins.formatting.black.with({
+            command = "black",
+          }),
+          null_ls.builtins.formatting.shfmt,
+          null_ls.builtins.formatting.stylua,
+          null_ls.builtins.formatting.latexindent,
 
-	-- LSPConfig for managing LSP server setups
-	{
-		"neovim/nvim-lspconfig",
-		lazy = true,
-		event = "BufReadPre",
-		config = function()
-			local capabilities = require("cmp_nvim_lsp").default_capabilities()
-			local lspconfig = require("lspconfig")
-			local servers = {
-				"tsserver",
-				"gopls",
-				"rust_analyzer",
-				"marksman",
-				"texlab",
-				"html",
-				"lua_ls",
-				"pyright",
-				"bashls",
-				"clangd",
-				"solidity",
-			}
+          -- Linters
+          null_ls.builtins.diagnostics.eslint_d,
 
-			local on_attach = function(client, bufnr)
-				local bufopts = { noremap = true, silent = true, buffer = bufnr }
-				vim.keymap.set("n", "K", vim.lsp.buf.hover, bufopts)
-				vim.keymap.set("n", "<leader>gd", vim.lsp.buf.definition, bufopts)
-				vim.keymap.set("n", "<leader>gr", vim.lsp.buf.references, bufopts)
-				vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, bufopts)
-				vim.keymap.set("n", "<leader>f", function()
-					vim.lsp.buf.format({ async = true })
-				end, bufopts)
-			end
+          -- Custom Solidity formatter (Forge)
+          null_ls.builtins.formatting.forge_fmt.with({
+            command = "forge",
+            args = { "fmt" },
+            filetypes = { "solidity" },
+          }),
+        },
+        on_attach = function(client, bufnr)
+          local bufopts = { noremap = true, silent = true, buffer = bufnr }
+          vim.keymap.set("n", "<leader>f", function()
+            vim.lsp.buf.format({ async = true })
+          end, bufopts)
+        end,
+      })
+    end,
+  },
 
-			for _, lsp in ipairs(servers) do
-				lspconfig[lsp].setup({
-					capabilities = capabilities,
-					on_attach = on_attach,
-				})
-			end
-			lspconfig.solidity.setup({
-				capabilities = capabilities,
-				settings = {
-					solidity = {
-						includePath = "", -- Add paths for Solidity imports, if needed
-						remapping = {}, -- Configure remapping for custom paths if necessary
-					},
-				},
-			})
-		end,
-	},
+  -- LSPConfig for setting up LSPs
+  {
+    "neovim/nvim-lspconfig",
+    lazy = true,
+    event = "BufReadPre",
+    config = function()
+      local capabilities = require("cmp_nvim_lsp").default_capabilities()
+      local lspconfig = require("lspconfig")
+      local servers = {
+        "ts_ls", "gopls", "rust_analyzer", "marksman",
+        "texlab", "html", "lua_ls", "pyright", "bashls", "clangd",
+      }
+
+      local on_attach = function(client, bufnr)
+        local bufopts = { noremap = true, silent = true, buffer = bufnr }
+        vim.keymap.set("n", "K", vim.lsp.buf.hover, bufopts)
+        vim.keymap.set("n", "<leader>gd", vim.lsp.buf.definition, bufopts)
+        vim.keymap.set("n", "<leader>gr", vim.lsp.buf.references, bufopts)
+        vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, bufopts)
+        vim.keymap.set("n", "<leader>f", function()
+          vim.lsp.buf.format({ async = true })
+        end, bufopts)
+      end
+
+      for _, lsp in ipairs(servers) do
+        lspconfig[lsp].setup({
+          capabilities = capabilities,
+          on_attach = on_attach,
+        })
+      end
+
+      -- Special config for Solidity
+      lspconfig.solidity.setup({
+        capabilities = capabilities,
+        on_attach = on_attach,
+        settings = {
+          solidity = {
+            includePath = "",
+            remapping = {},
+          },
+        },
+      })
+    end,
+  },
 }
+
