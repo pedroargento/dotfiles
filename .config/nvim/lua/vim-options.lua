@@ -14,5 +14,7 @@ vim.keymap.set('n', '<c-h>', ':wincmd h<CR>')
 vim.keymap.set('n', '<c-l>', ':wincmd l<CR>')
 
 vim.keymap.set('n', '<leader>h', ':nohlsearch<CR>')
+vim.keymap.set("n", "-", "<CMD>Oil<CR>", { desc = "Open parent directory (oil.nvim)" })
+
 vim.wo.number = true
 
